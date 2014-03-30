@@ -21,7 +21,7 @@ type jsonPacketHandler struct {
 }
 
 type jsonHandlePacketler interface {
-	handlePacket(string) (jsonPacket, error)
+	handlePacket(string) (string, interface{}, error)
 }
 
 var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
@@ -65,11 +65,11 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(data)
 
 		// MiaTODO: check if contains
-		packet, err := jsonPacketHandlers[data.Id].handlePacket(data.Data)
+		id, packet, err := jsonPacketHandlers[data.Id].handlePacket(data.Data)
 		if err != nil {
 			return
 		}
-		if packet.Id != nil {
+		if id != "" {
 			conn.WriteJSON(packet)
 		}
 	}

@@ -20,13 +20,19 @@ type testPacket struct {
 	Id   string
 }
 
-func (h testPacketHandler) handlePacket(data string) (jsonPacket, error) {
+type testResponsePacket struct {
+	Data   string
+	NewKey string
+	Id     string
+}
+
+func (h testPacketHandler) handlePacket(data string) (string, interface{}, error) {
 	var packet testPacket
 	if err := json.Unmarshal([]byte(data), &packet); err != nil {
 		fmt.Println("Could not read json:", err.Error())
-		return jsonPacket{}, errors.New("Unable to handle packet")
+		return "", nil, errors.New("Unable to handle packet")
 	}
 	fmt.Println("TPH:", packet)
 
-	return jsonPacket{Id: "NewId", Data: "NewData"}, nil
+	return "NewId", testResponsePacket{Id: "NewId", NewKey: "NewData"}, nil
 }
