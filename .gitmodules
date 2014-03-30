@@ -1,0 +1,3 @@
+[submodule "src/github.com/gorilla/websocket"]
+	path = src/github.com/gorilla/websocket
+	url = git://github.com/gorilla/websocket.git
