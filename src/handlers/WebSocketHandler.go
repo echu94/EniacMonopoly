@@ -62,7 +62,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Could not read json:", err.Error())
 			return
 		}
-		fmt.Println(data)
 
 		// MiaTODO: check if contains
 		packet := jsonPacketHandlers[data.Id].handlePacket(data.Data)

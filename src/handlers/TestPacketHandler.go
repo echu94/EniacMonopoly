@@ -20,7 +20,6 @@ type testPacket struct {
 }
 
 type testResponsePacket struct {
-	Data   string
 	NewKey string
 	Id     string
 }
@@ -31,7 +30,6 @@ func (h testPacketHandler) handlePacket(data string) interface{} {
 		fmt.Println("Could not read json:", err.Error())
 		return nil
 	}
-	fmt.Println("TPH:", packet)
 
 	return testResponsePacket{Id: "NewId", NewKey: "NewData"}
 }
