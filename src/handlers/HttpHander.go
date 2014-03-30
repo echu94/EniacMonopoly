@@ -9,6 +9,7 @@ import (
 const base = "src/html"
 
 func HttpHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Incoming web request:", r.URL.Path)
 
 	var path string
 	if r.URL.Path == "/" {
@@ -19,7 +20,7 @@ func HttpHandler(w http.ResponseWriter, r *http.Request) {
 
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
-		fmt.Println("Invalid web request: ", err)
+		fmt.Println("Invalid web request:", err)
 		return
 	}
 
