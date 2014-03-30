@@ -64,7 +64,13 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// MiaTODO: check if contains
-		packet := jsonPacketHandlers[data.Id].handlePacket(data.Data)
+		h, d := jsonPacketHandlers[data.Id]
+		if !d {
+			fmt.Println("Invalid packet id:", data.Id)
+			return
+		}
+
+		packet := h.handlePacket(data.Data)
 
 		if packet != nil {
 			conn.WriteJSON(packet)
