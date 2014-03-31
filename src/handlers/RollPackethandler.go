@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"fmt"
 	"math/rand"
-	"strconv"
 	"time"
 )
 
