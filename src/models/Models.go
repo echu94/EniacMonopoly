@@ -47,6 +47,18 @@ type Utility struct {
 	OwnableSpace
 }
 
+type IncomeTax struct {
+	Space
+}
+
+type LuxaryTax struct {
+	Space
+}
+
+type GoToJail struct {
+	Space
+}
+
 type RailRoad struct {
 	OwnableSpace
 }
@@ -59,32 +71,28 @@ type Property struct {
 	UpgradeCost int
 }
 
-type CardType int
-
-const (
-	CommunityChestSpace = iota
-	ChanceSpace
-)
-
-type LuckCardSpace struct {
+type CommunityChest struct {
 	Space
-	Type CardType
 }
 
-type CommunityChest struct {
+type Chance struct {
+	Space
+}
+
+type CommunityChestCard struct {
 	Title       string
 	Description string
 }
 
-type Chance struct {
+type ChanceCard struct {
 	Title       string
 	Description string
 }
 
 type Board struct {
 	Turn                int
-	ChanceCards         []Chance
-	CommunityChestCards []CommunityChest
+	ChanceCards         []ChanceCard
+	CommunityChestCards []CommunityChestCard
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool
