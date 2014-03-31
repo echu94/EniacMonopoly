@@ -4,25 +4,46 @@ $(function () {
 	
 	// load handlers
 	handlers.Roll = function (data) {
+		$('#Status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');		
+	};
+	handlers.SetPlayerPosition = function (data) {
 		var player = board.GetCurrentPlayer();
-		player.Position = (player.Position + data.Dice1 + data.Dice2) % spaces.length;
-		
-		$('#Status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');
+		player.Position = data.Position;
 		
 		UpdatePlayerSpace(board.Turn);
-	}
-	handlers.SetTurn = function (data) {
+	};
+	handlers.NextTurn = function (data) {
 		board.Turn = data.Turn;
+		board.DoublesCount = data.DoublesCount;
+		board.HasRolled = data.HasRolled;
 		
+		UpdateRolled();
 		UpdatePlayerTurn();
-	}
+	};
 	handlers.AddCash = function (data) {
+		$('#Status').text('Received ' + data.Cash + ' dollars.');	
+	};
+	handlers.State = function (data) {
+		board = new Board(data.Board);
+		
+		Initialize();
+	};
+	handlers.setDoublesCount = function (data) {
+		board.DoublesCount = data.DoublesCount;
+	};
+	handlers.SetHasRolled = function (data) {
+		board.HasRolled = data.HasRolled;
+		console.log(board.HasRolled);
+		
+		UpdateRolled();
+	};
+	handlers.SetCash = function (data) {
 		var player = board.GetCurrentPlayer();
 		
-		player.Cash += data.Cash;
+		player.Cash = data.Cash;
 		
 		UpdatePlayerCash(board.Turn);
-	}
+	};
 	
 	var board;
 	
@@ -44,9 +65,12 @@ $(function () {
 	};
 	
 	function Initialize() {
-		LoadData();
-		
-		LoadState();
+		for(var i = 0; i < board.Players.length; ++i) {
+			AddPlayerInfo(i);
+			UpdatePlayerSpace(i);
+			UpdatePlayerCash(i);
+		}
+		UpdatePlayerTurn();
 		
 		$('#Roll').on('click', function () {
 			socket.send(Packets.GetRollPacket());
@@ -54,67 +78,6 @@ $(function () {
 		$('#End').on('click', function () {
 			socket.send(Packets.GetEndTurnPacket());
 		});
-	}
-	
-	// TODO: put spaces in board
-	var spaces;
-	
-	function LoadData() {
-		spaces = [];
-		var i = 0;
-		spaces.push(new Space("Go", i++));
-		spaces.push(new Space("Mediterranean Avenue", i++));
-		spaces.push(new Space("Community Chest", i++));
-		spaces.push(new Space("Baltic Avenue", i++));
-		spaces.push(new Space("Income Tax", i++));
-		spaces.push(new Space("Reading Railroad", i++));
-		spaces.push(new Space("Oriental Avenue", i++));
-		spaces.push(new Space("Chance", i++));
-		spaces.push(new Space("Vermont Avenue", i++));
-		spaces.push(new Space("Connecticut Avenue", i++));
-		spaces.push(new Space("Jail", i++));
-		spaces.push(new Space("St. Charles Place", i++));
-		spaces.push(new Space("Electric Company", i++));
-		spaces.push(new Space("States Avenue", i++));
-		spaces.push(new Space("Virginia Avenue", i++));
-		spaces.push(new Space("Pennsylvania Railroad", i++));
-		spaces.push(new Space("St. James Place", i++));
-		spaces.push(new Space("Community Chest", i++));
-		spaces.push(new Space("Tennessee Avenue", i++));
-		spaces.push(new Space("New York Avenue", i++));
-		spaces.push(new Space("Free Parking", i++));
-		spaces.push(new Space("Kentucky Avenue", i++));
-		spaces.push(new Space("Chance", i++));
-		spaces.push(new Space("Indiana Avenue", i++));
-		spaces.push(new Space("Illinois Avenue", i++));
-		spaces.push(new Space("B. & O. Railroad", i++));
-		spaces.push(new Space("Atlantic Avenue", i++));
-		spaces.push(new Space("Ventnor Avenue", i++));
-		spaces.push(new Space("Water Works", i++));
-		spaces.push(new Space("Marvin Gardens", i++));
-		spaces.push(new Space("Go To Jail", i++));
-		spaces.push(new Space("Pacific Avenue", i++));
-		spaces.push(new Space("North Carolina Avenue", i++));
-		spaces.push(new Space("Community Chest", i++));
-		spaces.push(new Space("Pennsylvania Avenue", i++));
-		spaces.push(new Space("Short Line", i++));
-		spaces.push(new Space("Chance", i++));
-		spaces.push(new Space("Park Place", i++));
-		spaces.push(new Space("Luxury Tax", i++));
-		spaces.push(new Space("Boardwalk", i++));
-	}
-	
-	function LoadState() {
-		board = new Board();
-		var players = 2;
-	
-		for(var i = 0; i < players; ++i) {
-			board.Players.push(new Player(i));
-			AddPlayerInfo(i);
-			UpdatePlayerSpace(i);
-			UpdatePlayerCash(i);
-		}
-		UpdatePlayerTurn();
 	}
 	
 	function AddPlayerInfo(id) {
@@ -125,7 +88,7 @@ $(function () {
 	}
 	
 	function UpdatePlayerSpace(id) {
-		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(spaces[board.GetCurrentPlayer().Position].Name);
+		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(board.Spaces[board.GetCurrentPlayer().Position].Name);
 	}
 	
 	function UpdatePlayerCash(id) {
@@ -134,5 +97,9 @@ $(function () {
 	
 	function UpdatePlayerTurn() {
 		$('#CurrentPlayer').text(board.Turn + 1);
+	}
+	
+	function UpdateRolled() {
+		$('#Roll').prop('disabled', board.HasRolled);
 	}
 });

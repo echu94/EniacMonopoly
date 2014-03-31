@@ -1,8 +1,10 @@
 package handlers
 
-type setTurnPacket struct {
-	Id   string
-	Turn int
+type nextTurnPacket struct {
+	Id           string
+	Turn         int
+	DoublesCount int
+	HasRolled    bool
 }
 
 type endTurnPacketHandler struct {
@@ -23,6 +25,6 @@ func (h endTurnPacketHandler) handlePacket(data string) []interface{} {
 
 	board.NextTurn()
 
-	packets = append(packets, setTurnPacket{Id: "SetTurn", Turn: board.Turn})
+	packets = append(packets, nextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
 	return packets
 }

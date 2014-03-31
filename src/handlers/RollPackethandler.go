@@ -21,9 +21,28 @@ func loadRollPacketHandler() {
 }
 
 type addCashPacket struct {
+	Id   string
+	Cash int
+}
+
+type setCashPacket struct {
+	Id   string
+	Cash int
+}
+
+type setDoublesCount struct {
+	Id           string
+	DoublesCount int
+}
+
+type setPlayerPositionPacket struct {
 	Id       string
-	PlayerId int
-	Cash     int
+	Position int
+}
+
+type setHasRolledPacket struct {
+	Id        string
+	HasRolled bool
 }
 
 func (h rollPacketHandler) handlePacket(data string) []interface{} {
@@ -42,23 +61,28 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 	spaces := len(board.Spaces)
 
 	if r1 == r2 {
-		board.DoublesCount++
-		if board.DoublesCount == 3 {
+		if board.DoublesCount == 2 {
 			// TODO: Goto jail
 			board.NextTurn()
-			packets = append(packets, setTurnPacket{Id: "SetTurn", Turn: board.Turn})
+			packets = append(packets, nextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
 			return packets
 		}
+
+		board.DoublesCount++
+		packets = append(packets, setDoublesCount{Id: "SetDoublesCount", DoublesCount: board.DoublesCount})
 	} else {
 		board.HasRolled = true
+		packets = append(packets, setHasRolledPacket{Id: "SetHasRolled", HasRolled: board.HasRolled})
 	}
 
 	if player.Position >= spaces {
 		player.Cash += 200
 		player.Position -= spaces
-		packets = append(packets, addCashPacket{Id: "AddCash", PlayerId: board.Turn, Cash: 200})
+		packets = append(packets, addCashPacket{Id: "AddCash", Cash: 200})
+		packets = append(packets, setCashPacket{Id: "SetCash", Cash: player.Cash})
 	}
 
 	packets = append(packets, rollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
+	packets = append(packets, setPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
 	return packets
 }
