@@ -33,7 +33,6 @@ $(function () {
 	};
 	handlers.SetHasRolled = function (data) {
 		board.HasRolled = data.HasRolled;
-		console.log(board.HasRolled);
 		
 		UpdateRolled();
 	};
