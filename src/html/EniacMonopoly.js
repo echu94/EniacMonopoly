@@ -109,13 +109,13 @@ $(function () {
 	}
 	
 	function UpdateCurrentSpace(id) {
-		var $player = $('#PlayerSpaces').children('.Player' + id);
+		var $player = $('#PlayerInfos').children('.Player' + id);
 		
 		if($player.size() == 0) {
-			$player = $($('#PlayerSpaces > template').html())
-			$player.attr('class', 'Player' + id);
+			$player = $($('#PlayerInfos > template').html())
+			$player.addClass('Player' + id);
 			$player.find('.PlayerId').text(id + 1);
-			$('#PlayerSpaces').append($player);
+			$('#PlayerInfos').append($player);
 		}
 		
 		$player.find('.PlayerSpace').text(spaces[board.GetCurrentPlayer().Position].Name);

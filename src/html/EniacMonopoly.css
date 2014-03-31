@@ -1,0 +1,6 @@
+.PlayerInfo {
+	display: inline-block;
+	margin-right: 20px;
+	border: 1px solid black;
+	padding: 5px;
+}
