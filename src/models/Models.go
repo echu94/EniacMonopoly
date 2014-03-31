@@ -124,5 +124,5 @@ func (b *Board) GetCurrentSpace() *HandleSpacer {
 }
 
 type HandleSpacer interface {
-	HandleSpace()
+	HandleSpace(*Board) []interface{}
 }

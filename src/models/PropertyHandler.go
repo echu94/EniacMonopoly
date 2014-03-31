@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
-func (p *Property) HandleSpace() {
+func (p *Property) HandleSpace(b *Board) []interface{} {
 	fmt.Println("Handling a property")
+
+	return nil
 }

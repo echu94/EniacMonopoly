@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
-func (p *Space) HandleSpace() {
+func (p *Space) HandleSpace(b *Board) []interface{} {
 	fmt.Println("Handling a space")
+
+	return nil
 }

@@ -2,13 +2,8 @@ package handlers
 
 import (
 	"math/rand"
+	"models"
 )
-
-type rollResponsePacket struct {
-	Id    string
-	Dice1 int
-	Dice2 int
-}
 
 type rollPacketHandler struct {
 	jsonPacketHandler
@@ -17,31 +12,6 @@ type rollPacketHandler struct {
 func loadRollPacketHandler() {
 	handler := rollPacketHandler{jsonPacketHandler{Id: "Roll"}}
 	jsonPacketHandlers[handler.Id] = handler
-}
-
-type addCashPacket struct {
-	Id   string
-	Cash int
-}
-
-type setCashPacket struct {
-	Id   string
-	Cash int
-}
-
-type setDoublesCount struct {
-	Id           string
-	DoublesCount int
-}
-
-type setPlayerPositionPacket struct {
-	Id       string
-	Position int
-}
-
-type setHasRolledPacket struct {
-	Id        string
-	HasRolled bool
 }
 
 func (h rollPacketHandler) handlePacket(data string) []interface{} {
@@ -62,26 +32,28 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 		if board.DoublesCount == 2 {
 			// TODO: Goto jail
 			board.NextTurn()
-			packets = append(packets, nextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
+			packets = append(packets, models.NextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
 			return packets
 		}
 
 		board.DoublesCount++
-		packets = append(packets, setDoublesCount{Id: "SetDoublesCount", DoublesCount: board.DoublesCount})
+		packets = append(packets, models.SetDoublesCount{Id: "SetDoublesCount", DoublesCount: board.DoublesCount})
 	} else {
 		board.HasRolled = true
-		packets = append(packets, setHasRolledPacket{Id: "SetHasRolled", HasRolled: board.HasRolled})
+		packets = append(packets, models.SetHasRolledPacket{Id: "SetHasRolled", HasRolled: board.HasRolled})
 	}
 
 	if player.Position >= spaces {
 		player.Cash += 200
 		player.Position -= spaces
-		packets = append(packets, addCashPacket{Id: "AddCash", Cash: 200})
-		packets = append(packets, setCashPacket{Id: "SetCash", Cash: player.Cash})
+		packets = append(packets, models.AddCashPacket{Id: "AddCash", PlayerId: board.Turn, Cash: 200})
+		packets = append(packets, models.SetCashPacket{Id: "SetCash", PlayerId: board.Turn, Cash: player.Cash})
 	}
 
-	packets = append(packets, rollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
-	packets = append(packets, setPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
-	(*board.GetCurrentSpace()).HandleSpace()
+	packets = append(packets, models.RollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
+	packets = append(packets, models.SetPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
+	if p := (*board.GetCurrentSpace()).HandleSpace(&board); p != nil {
+		packets = append(packets, p...)
+	}
 	return packets
 }

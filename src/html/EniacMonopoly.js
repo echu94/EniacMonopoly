@@ -37,11 +37,11 @@ $(function () {
 		UpdateRolled();
 	};
 	handlers.SetCash = function (data) {
-		var player = board.GetCurrentPlayer();
+		var player = board.Players[data.PlayerId];
 		
 		player.Cash = data.Cash;
 		
-		UpdatePlayerCash(board.Turn);
+		UpdatePlayerCash(data.PlayerId);
 	};
 	
 	var board;

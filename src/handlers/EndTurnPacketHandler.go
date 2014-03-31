@@ -1,11 +1,8 @@
 package handlers
 
-type nextTurnPacket struct {
-	Id           string
-	Turn         int
-	DoublesCount int
-	HasRolled    bool
-}
+import (
+	"models"
+)
 
 type endTurnPacketHandler struct {
 	jsonPacketHandler
@@ -25,6 +22,6 @@ func (h endTurnPacketHandler) handlePacket(data string) []interface{} {
 
 	board.NextTurn()
 
-	packets = append(packets, nextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
+	packets = append(packets, models.NextTurnPacket{Id: "NextTurn", Turn: board.Turn, DoublesCount: board.DoublesCount, HasRolled: board.HasRolled})
 	return packets
 }
