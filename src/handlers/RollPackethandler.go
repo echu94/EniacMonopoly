@@ -20,12 +20,10 @@ func loadRollPacketHandler() {
 }
 
 func (h rollPacketHandler) handlePacket(data string) interface{} {
-
 	rand.Seed(time.Now().UnixNano())
 	r1 := rand.Intn(6) + 1
 	r2 := rand.Intn(6) + 1
 	r := r1 + r2
 
 	return rollResponsePacket{Id: "Roll", Response: r}
-
 }
