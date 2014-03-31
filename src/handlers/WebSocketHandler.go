@@ -45,8 +45,9 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Send hello
 	if err := conn.WriteJSON(&HelloPacket{jsonPacket{Id: "Hello"}}); err != nil {
-		fmt.Println("Could not send JSON:", err.Error())
+		fmt.Println("Could not write JSON:", err.Error())
 		return
 	}
 
@@ -73,7 +74,10 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		packet := h.handlePacket(data.Data)
 
 		if packet != nil {
-			conn.WriteJSON(packet)
+			if err := conn.WriteJSON(packet); err != nil {
+				fmt.Println("Could not write JSON:", err.Error())
+				return
+			}
 		}
 	}
 }

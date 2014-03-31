@@ -4,6 +4,7 @@ $(function () {
 	
 	// load handlers
 	handlers.Hello = function (data) {
+		Initialize();
 		return '{"Id":"Hello","Data":"{\\"Id\\":\\"Hello\\",\\"Data\\":\\"\\"}"}';
 	};
 	
@@ -21,4 +22,18 @@ $(function () {
 			}
 		}
 	};
+	
+	function getRollPacket() {
+		var packet = {};
+		packet.Id = "Roll";
+		packet.Data = "Roll";
+		return JSON.stringify(packet);
+	}
+	
+	function Initialize() {
+		$('#Roll').on('click', function () {
+			console.log(getRollPacket());
+			socket.send(getRollPacket());
+		});
+	}
 });
