@@ -95,6 +95,7 @@ func (b *Board) NextTurn() {
 	b.Turn++
 	b.Turn %= len(b.Players)
 	b.HasRolled = false
+	b.DoublesCount = 0
 }
 
 func (b *Board) GetCurrentPlayer() *Player {
