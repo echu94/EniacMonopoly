@@ -86,9 +86,10 @@ type Chance struct {
 }
 
 type Board struct {
-	CurrentTurn         int
+	Turn                int
 	ChanceCards         []Chance
 	CommunityChestCards []CommunityChestChest
 	Players             []Player
 	DoublesCount        int
+	HasRolled           bool
 }
