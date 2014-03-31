@@ -65,7 +65,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// MiaTODO: check if contains
 		h, d := jsonPacketHandlers[data.Id]
 		if !d {
 			fmt.Println("Invalid packet id:", data.Id)
