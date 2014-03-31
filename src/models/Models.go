@@ -89,19 +89,19 @@ type Chance struct {
 }
 
 type CommunityChestCard struct {
-	Title       string
+	Id          int
 	Description string
 }
 
 type ChanceCard struct {
-	Title       string
+	Id          int
 	Description string
 }
 
 type Board struct {
 	Turn                int
-	ChanceCards         []ChanceCard
-	CommunityChestCards []CommunityChestCard
+	ChanceCards         []ChanceCard         `json:"-"`
+	CommunityChestCards []CommunityChestCard `json:"-"`
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool

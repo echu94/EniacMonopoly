@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"math/rand"
-	"time"
 )
 
 type rollResponsePacket struct {
@@ -52,7 +51,6 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 
 	packets := make([]interface{}, 0)
 
-	rand.Seed(time.Now().UnixNano())
 	r1 := rand.Intn(6) + 1
 	r2 := rand.Intn(6) + 1
 
