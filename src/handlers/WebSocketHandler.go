@@ -14,15 +14,19 @@ type jsonPacket struct {
 }
 
 type HelloPacket struct {
-	jsonPacket
+	Id string
 }
 
 type jsonPacketHandler struct {
 	Id string
 }
 
+type packetWrapper struct {
+	Packets []interface{}
+}
+
 type jsonHandlePacketler interface {
-	handlePacket(string) interface{}
+	handlePacket(string) []interface{}
 }
 
 var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
@@ -51,8 +55,9 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 				JailedTurn: -1,
 			}
 		}
+		// TODO: Initialize spaces
+		board.Spaces = make([]models.Space, 40)
 	}
-	fmt.Println(board)
 
 	fmt.Println("Incoming web socket request:", r.URL.Path)
 	conn, err := websocket.Upgrade(w, r, nil, 1024, 1024)
@@ -65,7 +70,10 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Send hello
-	if err := conn.WriteJSON(&HelloPacket{jsonPacket{Id: "Hello"}}); err != nil {
+	packets := make([]interface{}, 0)
+	packets = append(packets, HelloPacket{Id: "Hello"})
+	packet := packetWrapper{Packets: packets}
+	if err := conn.WriteJSON(&packet); err != nil {
 		fmt.Println("Could not write JSON:", err.Error())
 		return
 	}
@@ -89,9 +97,9 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		packet := h.handlePacket(data.Data)
-
-		if packet != nil {
+		packets := h.handlePacket(data.Data)
+		if packets != nil {
+			packet := packetWrapper{Packets: packets}
 			if err := conn.WriteJSON(packet); err != nil {
 				fmt.Println("Could not write JSON:", err.Error())
 				return

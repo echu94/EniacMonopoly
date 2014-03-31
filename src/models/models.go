@@ -92,10 +92,15 @@ type Board struct {
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool
+	Spaces              []Space
 }
 
 func (b *Board) NextTurn() {
 	b.Turn++
 	b.Turn %= len(b.Players)
 	b.HasRolled = false
+}
+
+func (b *Board) GetCurrentPlayer() *Player {
+	return &b.Players[b.Turn]
 }

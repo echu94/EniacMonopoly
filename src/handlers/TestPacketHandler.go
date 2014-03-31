@@ -24,12 +24,15 @@ type testResponsePacket struct {
 	Id     string
 }
 
-func (h testPacketHandler) handlePacket(data string) interface{} {
+func (h testPacketHandler) handlePacket(data string) []interface{} {
 	var packet testPacket
 	if err := json.Unmarshal([]byte(data), &packet); err != nil {
 		fmt.Println("Could not read json:", err.Error())
 		return nil
 	}
 
-	return testResponsePacket{Id: "NewId", NewKey: "NewData"}
+	packets := make([]interface{}, 0)
+
+	packets = append(packets, testResponsePacket{Id: "NewId", NewKey: "NewData"})
+	return packets
 }

@@ -1,6 +1,6 @@
 package handlers
 
-type changeTurnPacket struct {
+type setTurnPacket struct {
 	Id   string
 	Turn int
 }
@@ -14,12 +14,15 @@ func loadEndTurnPacketHandler() {
 	jsonPacketHandlers[handler.Id] = handler
 }
 
-func (h endTurnPacketHandler) handlePacket(data string) interface{} {
+func (h endTurnPacketHandler) handlePacket(data string) []interface{} {
 	if !board.HasRolled {
 		return nil
 	}
 
+	packets := make([]interface{}, 0)
+
 	board.NextTurn()
 
-	return changeTurnPacket{Id: "ChangeTurn", Turn: board.Turn}
+	packets = append(packets, setTurnPacket{Id: "SetTurn", Turn: board.Turn})
+	return packets
 }

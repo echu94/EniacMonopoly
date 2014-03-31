@@ -15,25 +15,34 @@ $(function () {
 		
 		UpdatePlayerSpace(board.Turn);
 	}
-	handlers.ChangeTurn = function (data) {
+	handlers.SetTurn = function (data) {
 		board.Turn = data.Turn;
 		
 		UpdatePlayerTurn();
+	}
+	handlers.AddCash = function (data) {
+		var player = board.GetCurrentPlayer();
+		
+		player.Cash += data.Cash;
+		
+		UpdatePlayerCash(board.Turn);
 	}
 	
 	var board;
 	
 	
-	socket.onmessage = function (msg) {
-		var data = JSON.parse(msg.data);
+	socket.onmessage = function (msg) {	
+		var packets = JSON.parse(msg.data).Packets;
 		
-		console.log(data);		
-		
-		var handler = handlers[data.Id];
-		if(handler){
-			var packet = handler(data);
-			if(packet) {
-				socket.send(packet);
+		for(var i = 0; i < packets.length; ++i) {
+			var data = packets[i]
+			console.log(data);		
+			var handler = handlers[data.Id];
+			if(handler){
+				var packet = handler(data);
+				if(packet) {
+					socket.send(packet);
+				}
 			}
 		}
 	};
@@ -51,6 +60,7 @@ $(function () {
 		});
 	}
 	
+	// TODO: put spaces in board
 	var spaces;
 	
 	function LoadData() {
@@ -96,7 +106,6 @@ $(function () {
 		spaces.push(new Space("Park Place", i++));
 		spaces.push(new Space("Luxury Tax", i++));
 		spaces.push(new Space("Boardwalk", i++));
-		console.log(spaces);
 	}
 	
 	function LoadState() {
