@@ -1,9 +1,5 @@
 package models
 
-import (
-	"image/color"
-)
-
 type Player struct {
 	IsHuman           bool
 	Cash              int
@@ -27,6 +23,19 @@ const (
 	Thimble
 	TopHat
 	Wheelbarrow
+)
+
+type Colors int
+
+const (
+	Brown = iota
+	Sky
+	Pink
+	Orange
+	Red
+	Yellow
+	Green
+	Blue
 )
 
 type Space struct {
@@ -65,7 +74,7 @@ type RailRoad struct {
 
 type Property struct {
 	OwnableSpace
-	Color       color.RGBA
+	Color       Colors
 	Upgrades    int
 	Rent        []int
 	UpgradeCost int
