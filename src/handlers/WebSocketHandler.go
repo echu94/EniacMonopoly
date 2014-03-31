@@ -13,10 +13,6 @@ type jsonPacket struct {
 	Id   string
 }
 
-type HelloPacket struct {
-	Id string
-}
-
 type jsonPacketHandler struct {
 	Id string
 }
