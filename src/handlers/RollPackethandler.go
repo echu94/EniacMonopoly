@@ -6,8 +6,9 @@ import (
 )
 
 type rollResponsePacket struct {
-	Id       string
-	Response int
+	Id    string
+	Dice1 int
+	Dice2 int
 }
 
 type rollPacketHandler struct {
@@ -27,7 +28,6 @@ func (h rollPacketHandler) handlePacket(data string) interface{} {
 	rand.Seed(time.Now().UnixNano())
 	r1 := rand.Intn(6) + 1
 	r2 := rand.Intn(6) + 1
-	r := r1 + r2
 	if r1 == r2 {
 		board.DoublesCount++
 		if board.DoublesCount == 3 {
@@ -39,5 +39,5 @@ func (h rollPacketHandler) handlePacket(data string) interface{} {
 		board.HasRolled = true
 	}
 
-	return rollResponsePacket{Id: "Roll", Response: r}
+	return rollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2}
 }
