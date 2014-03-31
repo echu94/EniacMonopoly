@@ -11,7 +11,7 @@ $(function () {
 		var player = board.GetCurrentPlayer();
 		player.Position = (player.Position + data.Dice1 + data.Dice2) % spaces.length;
 		
-		$('#status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');
+		$('#Status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');
 		
 		UpdatePlayerSpace(board.Turn);
 	}
