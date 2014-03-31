@@ -29,6 +29,11 @@ type jsonHandlePacketler interface {
 	handlePacket(string) []interface{}
 }
 
+type statePacket struct {
+	Id    string
+	Board models.Board
+}
+
 var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
 
 func loadPacketHandlers() {
@@ -69,9 +74,10 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Send hello
+	// Send hello & state
 	packets := make([]interface{}, 0)
 	packets = append(packets, HelloPacket{Id: "Hello"})
+	packets = append(packets, statePacket{Id: "State", Board: board})
 	packet := packetWrapper{Packets: packets}
 	if err := conn.WriteJSON(&packet); err != nil {
 		fmt.Println("Could not write JSON:", err.Error())
