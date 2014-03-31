@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/websocket"
+	"models"
 	"net/http"
 )
 
@@ -31,10 +32,20 @@ func loadPacketHandlers() {
 	loadRollPacketHandler()
 }
 
+var board models.Board
+
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	if len(jsonPacketHandlers) == 0 {
 		loadPacketHandlers()
 	}
+
+	if board.Players == nil {
+		board.Players = make([]models.Player, 2)
+		for i := 0; i < len(board.Players); i++ {
+			board.Players[i] = models.Player{}
+		}
+	}
+	fmt.Println(board)
 
 	fmt.Println("Incoming web socket request:", r.URL.Path)
 	conn, err := websocket.Upgrade(w, r, nil, 1024, 1024)

@@ -53,7 +53,7 @@ type RailRoad struct {
 
 type Property struct {
 	OwnableSpace
-	Color       color
+	Color       color.RGBA
 	Upgrades    int
 	Rent        []int
 	UpgradeCost int
@@ -88,7 +88,7 @@ type Chance struct {
 type Board struct {
 	Turn                int
 	ChanceCards         []Chance
-	CommunityChestCards []CommunityChestChest
+	CommunityChestCards []CommunityChest
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool
