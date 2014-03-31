@@ -28,6 +28,7 @@ var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
 
 func loadPacketHandlers() {
 	loadTestPacketHandler()
+	loadRollPacketHandler()
 }
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
