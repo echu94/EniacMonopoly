@@ -3,10 +3,6 @@ $(function () {
 	var handlers = {};
 	
 	// load handlers
-	handlers.Hello = function () {
-		Initialize();
-		return '{"Id":"Hello","Data":"{\\"Id\\":\\"Hello\\",\\"Data\\":\\"\\"}"}';
-	};
 	handlers.Roll = function (data) {
 		var player = board.GetCurrentPlayer();
 		player.Position = (player.Position + data.Dice1 + data.Dice2) % spaces.length;

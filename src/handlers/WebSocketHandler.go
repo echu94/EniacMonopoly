@@ -37,7 +37,6 @@ type statePacket struct {
 var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
 
 func loadPacketHandlers() {
-	loadTestPacketHandler()
 	loadRollPacketHandler()
 	loadEndTurnPacketHandler()
 }
@@ -80,7 +79,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Send hello & state
 	packets := make([]interface{}, 0)
-	packets = append(packets, HelloPacket{Id: "Hello"})
 	packets = append(packets, statePacket{Id: "State", Board: board})
 	packet := packetWrapper{Packets: packets}
 	if err := conn.WriteJSON(&packet); err != nil {
