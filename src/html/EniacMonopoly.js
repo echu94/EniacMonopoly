@@ -70,6 +70,7 @@ $(function () {
 			UpdatePlayerCash(i);
 		}
 		UpdatePlayerTurn();
+		UpdateRolled()
 		
 		$('#Roll').on('click', function () {
 			socket.send(Packets.GetRollPacket());
@@ -100,5 +101,6 @@ $(function () {
 	
 	function UpdateRolled() {
 		$('#Roll').prop('disabled', board.HasRolled);
+		$('#End').prop('disabled', !board.HasRolled);
 	}
 });
