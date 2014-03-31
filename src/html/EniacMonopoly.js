@@ -8,19 +8,18 @@ $(function () {
 		return '{"Id":"Hello","Data":"{\\"Id\\":\\"Hello\\",\\"Data\\":\\"\\"}"}';
 	};
 	handlers.Roll = function (data) {
-		positions[turn] = (positions[turn] + data.Response) % spaces.length;
+		var player = board.GetCurrentPlayer();
+		player.Position = (player.Position + data.Response) % spaces.length;
 		
-		UpdateCurrentSpace(turn);
+		UpdateCurrentSpace(board.Turn);
 	}
 	handlers.ChangeTurn = function (data) {
-		turn = data.Turn;
+		board.Turn = data.Turn;
 		
 		UpdatePlayerTurn();
 	}
 	
-	var turn;
-	var positions;
-	var players;
+	var board;
 	
 	
 	socket.onmessage = function (msg) {
@@ -99,12 +98,11 @@ $(function () {
 	}
 	
 	function LoadState() {
-		players = 2;
-		turn = 0;
+		board = new Board();
+		var players = 2;
 	
-		positions = [];
 		for(var i = 0; i < players; ++i) {
-			positions.push(i);
+			board.Players.push(new Player(i));
 			UpdateCurrentSpace(i);
 		}
 		UpdatePlayerTurn();
@@ -120,10 +118,10 @@ $(function () {
 			$('#PlayerSpaces').append($player);
 		}
 		
-		$player.find('.PlayerSpace').text(spaces[positions[turn]].Name);
+		$player.find('.PlayerSpace').text(spaces[board.GetCurrentPlayer().Position].Name);
 	}
 	
 	function UpdatePlayerTurn() {
-		$('#CurrentPlayer').text(turn + 1);
+		$('#CurrentPlayer').text(board.Turn + 1);
 	}
 });

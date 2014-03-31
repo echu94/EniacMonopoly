@@ -45,6 +45,7 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		for i := 0; i < len(board.Players); i++ {
 			board.Players[i] = models.Player{
 				IsHuman:    true,
+				Cash:       1500,
 				Order:      i,
 				Token:      models.Tokens(i),
 				JailedTurn: -1,
