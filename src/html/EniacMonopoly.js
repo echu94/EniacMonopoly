@@ -9,9 +9,11 @@ $(function () {
 	};
 	handlers.Roll = function (data) {
 		var player = board.GetCurrentPlayer();
-		player.Position = (player.Position + data.Response) % spaces.length;
+		player.Position = (player.Position + data.Dice1 + data.Dice2) % spaces.length;
 		
-		UpdateCurrentSpace(board.Turn);
+		$('#status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');
+		
+		UpdatePlayerSpace(board.Turn);
 	}
 	handlers.ChangeTurn = function (data) {
 		board.Turn = data.Turn;
@@ -103,22 +105,26 @@ $(function () {
 	
 		for(var i = 0; i < players; ++i) {
 			board.Players.push(new Player(i));
-			UpdateCurrentSpace(i);
+			AddPlayerInfo(i);
+			UpdatePlayerSpace(i);
+			UpdatePlayerCash(i);
 		}
 		UpdatePlayerTurn();
 	}
 	
-	function UpdateCurrentSpace(id) {
-		var $player = $('#PlayerInfos').children('.Player' + id);
-		
-		if($player.size() == 0) {
-			$player = $($('#PlayerInfos > template').html())
-			$player.addClass('Player' + id);
-			$player.find('.PlayerId').text(id + 1);
-			$('#PlayerInfos').append($player);
-		}
-		
-		$player.find('.PlayerSpace').text(spaces[board.GetCurrentPlayer().Position].Name);
+	function AddPlayerInfo(id) {
+		$player = $($('#PlayerInfos > template').html())
+		$player.addClass('Player' + id);
+		$player.find('.PlayerId').text(id + 1);
+		$('#PlayerInfos').append($player);
+	}
+	
+	function UpdatePlayerSpace(id) {
+		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(spaces[board.GetCurrentPlayer().Position].Name);
+	}
+	
+	function UpdatePlayerCash(id) {
+		var $player = $('#PlayerInfos').children('.Player' + id).find('.PlayerCash').text(board.GetCurrentPlayer().Cash);
 	}
 	
 	function UpdatePlayerTurn() {
