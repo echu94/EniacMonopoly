@@ -59,10 +59,6 @@ type Property struct {
 	UpgradeCost int
 }
 
-type Go struct {
-	Space
-}
-
 type CardType int
 
 const (
