@@ -43,7 +43,12 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	if board.Players == nil {
 		board.Players = make([]models.Player, 2)
 		for i := 0; i < len(board.Players); i++ {
-			board.Players[i] = models.Player{}
+			board.Players[i] = models.Player{
+				IsHuman:    true,
+				Order:      i,
+				Token:      models.Tokens(i),
+				JailedTurn: -1,
+			}
 		}
 	}
 	fmt.Println(board)

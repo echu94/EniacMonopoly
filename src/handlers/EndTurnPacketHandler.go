@@ -1,8 +1,8 @@
 package handlers
 
-type endTurnResponsePacket struct {
-	Id       string
-	Response int
+type changeTurnPacket struct {
+	Id   string
+	Turn int
 }
 
 type endTurnPacketHandler struct {
@@ -18,8 +18,8 @@ func (h endTurnPacketHandler) handlePacket(data string) interface{} {
 	if !board.HasRolled {
 		return nil
 	}
-	board.Turn %= 1
-	board.HasRolled = false
 
-	return endTurnResponsePacket{Id: "EndTurn", Response: board.Turn}
+	board.NextTurn()
+
+	return changeTurnPacket{Id: "ChangeTurn", Turn: board.Turn}
 }

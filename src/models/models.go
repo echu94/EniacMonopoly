@@ -10,7 +10,7 @@ type Player struct {
 	Order             int
 	Properties        []Property
 	Token             Tokens
-	Space             Space
+	Position          int
 	JailedTurn        int
 	HasJailFreeChance bool
 	HasJailFreeChest  bool
@@ -92,4 +92,10 @@ type Board struct {
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool
+}
+
+func (b *Board) NextTurn() {
+	b.Turn++
+	b.Turn %= len(b.Players)
+	b.HasRolled = false
 }

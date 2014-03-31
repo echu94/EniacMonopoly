@@ -3,10 +3,24 @@ $(function () {
 	var handlers = {};
 	
 	// load handlers
-	handlers.Hello = function (data) {
+	handlers.Hello = function () {
 		Initialize();
 		return '{"Id":"Hello","Data":"{\\"Id\\":\\"Hello\\",\\"Data\\":\\"\\"}"}';
 	};
+	handlers.Roll = function (data) {
+		positions[turn] = (positions[turn] + data.Response) % spaces.length;
+		
+		UpdateCurrentSpace(turn);
+	}
+	handlers.ChangeTurn = function (data) {
+		turn = data.Turn;
+		
+		UpdatePlayerTurn();
+	}
+	
+	var turn;
+	var positions;
+	var players;
 	
 	
 	socket.onmessage = function (msg) {
@@ -16,25 +30,23 @@ $(function () {
 		
 		var handler = handlers[data.Id];
 		if(handler){
-			var packet = handler(data.Data);
+			var packet = handler(data);
 			if(packet) {
 				socket.send(packet);
 			}
 		}
 	};
 	
-	function getRollPacket() {
-		var packet = {};
-		packet.Id = "Roll";
-		return JSON.stringify(packet);
-	}
-	
 	function Initialize() {
 		LoadData();
 		
+		LoadState();
+		
 		$('#Roll').on('click', function () {
-			console.log(getRollPacket());
-			socket.send(getRollPacket());
+			socket.send(Packets.GetRollPacket());
+		});
+		$('#End').on('click', function () {
+			socket.send(Packets.GetEndTurnPacket());
 		});
 	}
 	
@@ -86,4 +98,32 @@ $(function () {
 		console.log(spaces);
 	}
 	
+	function LoadState() {
+		players = 2;
+		turn = 0;
+	
+		positions = [];
+		for(var i = 0; i < players; ++i) {
+			positions.push(i);
+			UpdateCurrentSpace(i);
+		}
+		UpdatePlayerTurn();
+	}
+	
+	function UpdateCurrentSpace(id) {
+		var $player = $('#PlayerSpaces').children('.Player' + id);
+		
+		if($player.size() == 0) {
+			$player = $($('#PlayerSpaces > template').html())
+			$player.attr('class', 'Player' + id);
+			$player.find('.PlayerId').text(id + 1);
+			$('#PlayerSpaces').append($player);
+		}
+		
+		$player.find('.PlayerSpace').text(spaces[positions[turn]].Name);
+	}
+	
+	function UpdatePlayerTurn() {
+		$('#CurrentPlayer').text(turn + 1);
+	}
 });

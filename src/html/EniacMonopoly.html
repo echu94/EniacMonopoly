@@ -5,10 +5,19 @@
 <title>EniacMonopoly</title>
 <script src="jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="Models.js" type="text/javascript"></script>
+<script src="Packets.js" type="text/javascript"></script>
 <script src="EniacMonopoly.js" type="text/javascript"></script>
 <link rel="stylesheet" href="EniacMonopoly.css">
 </head>
 <body>
+<div id="PlayerSpaces">
+<template>
+	<div>Player <span class="PlayerId"></span> is on <span class="PlayerSpace"></span>.</div>
+</template>
+</div>
+<span id="CurrentSpace"></span>
+<div>It is Player <span id="CurrentPlayer"></span>'s turn.</div>
 <button id="Roll">Roll</button>
+<button id="End">End</button>
 </body>
 </html>
