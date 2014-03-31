@@ -36,7 +36,7 @@ type Space struct {
 
 type OwnableSpace struct {
 	Space
-	Owner          Player
+	Owner          *Player
 	IsMonopoly     bool
 	MortgageRate   int
 	UnmortgageRate int
@@ -88,7 +88,7 @@ type Board struct {
 	Players             []Player
 	DoublesCount        int
 	HasRolled           bool
-	Spaces              []Space
+	Spaces              []HandleSpacer
 }
 
 func (b *Board) NextTurn() {
@@ -100,4 +100,12 @@ func (b *Board) NextTurn() {
 
 func (b *Board) GetCurrentPlayer() *Player {
 	return &b.Players[b.Turn]
+}
+
+func (b *Board) GetCurrentSpace() *HandleSpacer {
+	return &b.Spaces[b.GetCurrentPlayer().Position]
+}
+
+type HandleSpacer interface {
+	HandleSpace()
 }

@@ -84,5 +84,6 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 
 	packets = append(packets, rollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
 	packets = append(packets, setPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
+	(*board.GetCurrentSpace()).HandleSpace()
 	return packets
 }
