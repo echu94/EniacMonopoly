@@ -1,27 +1,34 @@
-function Space(name, position) {
-	this.Name = name;
-	this.Position = position;
+function Space(src) {
+	this.Name = src.Name;
+	this.Position = src.Position;
 }
 
-function Player(order) {
+function Player(src) {
 	//IsHuman           bool
-	this.Cash = 1500;
-	this.Order = order;
+	this.Cash = src.Cash;
+	this.Order = src.Order;
 	//Properties        []Property
 	//Token             Tokens
-	this.Position = 0;
-	this.JailedTurn = -1;
-	this.HasJailFreeChance = false;
-	this.HasJailFreeChest = false
+	this.Position = src.Position;
+	this.JailedTurn = src.JailedTurn;
+	this.HasJailFreeChance = src.HasJailFreeChance;
+	this.HasJailFreeChest = src.HasJailFreeChest;
 }
 
-function Board() {
-	this.Turn = 0;
+function Board(src) {
+	this.Turn = src.Turn;
 	//ChanceCards         []Chance
 	//CommunityChestCards []CommunityChest
 	this.Players = [];
-	//DoublesCount        int
-	//HasRolled           bool
+	for(var i = 0; i < src.Players.length; ++i) {
+		this.Players[i] = new Player(src.Players[i])
+	}
+	this.DoublesCount = src.DoublesCount
+	this.HasRolled = src.HasRolled
+	this.Spaces = [];
+	for(var i = 0; i < src.Spaces.length; ++i) {
+		this.Spaces[i] = new Space(src.Spaces[i])
+	}
 }
 
 Board.prototype.GetCurrentPlayer = function () {
