@@ -43,6 +43,16 @@ $(function () {
 		
 		UpdatePlayerCash(data.PlayerId);
 	};
+	handlers.BuyCost = function (data) {
+		board.BuyCost = data.Cost;
+		
+		UpdateBuy();
+	};
+	handlers.PropertyOwner = function (data) {
+		board.Spaces[data.PropertyId].Owner = board.Players[data.PlayerId];
+		
+		// TODO: UI update
+	};
 	
 	var board;
 	
@@ -61,6 +71,8 @@ $(function () {
 				}
 			}
 		}
+		
+		console.log(board);
 	};
 	
 	function Initialize() {
@@ -70,13 +82,19 @@ $(function () {
 			UpdatePlayerCash(i);
 		}
 		UpdatePlayerTurn();
-		UpdateRolled()
+		UpdateBuy();
 		
 		$('#Roll').on('click', function () {
 			socket.send(Packets.GetRollPacket());
 		});
 		$('#End').on('click', function () {
 			socket.send(Packets.GetEndTurnPacket());
+		});
+		$('#Buy').on('click', function () {
+			socket.send(Packets.GetBuyPacket());
+		});
+		$('#Pass').on('click', function () {
+			socket.send(Packets.GetPassPacket());
 		});
 	}
 	
@@ -92,7 +110,7 @@ $(function () {
 	}
 	
 	function UpdatePlayerCash(id) {
-		var $player = $('#PlayerInfos').children('.Player' + id).find('.PlayerCash').text(board.GetCurrentPlayer().Cash);
+		var $player = $('#PlayerInfos').children('.Player' + id).find('.PlayerCash').text(board.Players[id].Cash);
 	}
 	
 	function UpdatePlayerTurn() {
@@ -100,7 +118,15 @@ $(function () {
 	}
 	
 	function UpdateRolled() {
-		$('#Roll').prop('disabled', board.HasRolled);
-		$('#End').prop('disabled', !board.HasRolled);
+		$('#Roll').prop('disabled', board.HasRolled || board.BuyCost > 0);
+		$('#End').prop('disabled', !board.HasRolled || board.BuyCost > 0);
+	}
+	
+	function UpdateBuy() {
+		$('#Status').text('Buy for ' + board.BuyCost + '?');	
+		$('#Buy').prop('disabled', board.BuyCost == 0);
+		$('#Pass').prop('disabled', board.BuyCost == 0);
+		
+		UpdateRolled();
 	}
 });

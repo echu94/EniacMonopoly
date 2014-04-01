@@ -44,3 +44,14 @@ type StatePacket struct {
 	Id    string
 	Board Board
 }
+
+type BuyCostPacket struct {
+	Id   string
+	Cost int
+}
+
+type PropertyOwnerPacket struct {
+	Id         string
+	PropertyId int
+	PlayerId   int
+}

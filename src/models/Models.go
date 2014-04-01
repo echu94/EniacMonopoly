@@ -106,6 +106,7 @@ type Board struct {
 	DoublesCount        int
 	HasRolled           bool
 	Spaces              []HandleSpacer
+	BuyCost             int
 }
 
 func (b *Board) NextTurn() {

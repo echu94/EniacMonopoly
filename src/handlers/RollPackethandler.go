@@ -15,7 +15,7 @@ func loadRollPacketHandler() {
 }
 
 func (h rollPacketHandler) handlePacket(data string) []interface{} {
-	if board.HasRolled {
+	if board.HasRolled || board.BuyCost > 0 {
 		return nil
 	}
 

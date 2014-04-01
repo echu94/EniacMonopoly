@@ -32,6 +32,7 @@ var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
 func loadPacketHandlers() {
 	loadRollPacketHandler()
 	loadEndTurnPacketHandler()
+	loadBuyPacketHandler()
 }
 
 var board models.Board

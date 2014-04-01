@@ -29,6 +29,7 @@ function Board(src) {
 	for(var i = 0; i < src.Spaces.length; ++i) {
 		this.Spaces[i] = new Space(src.Spaces[i])
 	}
+	this.BuyCost = src.BuyCost;
 }
 
 Board.prototype.GetCurrentPlayer = function () {

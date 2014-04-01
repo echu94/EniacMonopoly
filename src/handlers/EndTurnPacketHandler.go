@@ -14,7 +14,7 @@ func loadEndTurnPacketHandler() {
 }
 
 func (h endTurnPacketHandler) handlePacket(data string) []interface{} {
-	if !board.HasRolled {
+	if !board.HasRolled || board.BuyCost > 0 {
 		return nil
 	}
 
