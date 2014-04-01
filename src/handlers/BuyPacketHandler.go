@@ -26,7 +26,10 @@ func (h buyPacketHandler) handlePacket(data string) []interface{} {
 		r.Owner = player
 	} else if u, ok := (*board.GetCurrentSpace()).(*models.Utility); ok {
 		u.Owner = player
+	} else {
+		return nil
 	}
+	player.OwnableSpaces = append(player.OwnableSpaces, board.GetCurrentSpace())
 
 	player.Cash -= board.BuyCost
 	packets = append(packets, models.AddCashPacket{Id: "AddCash", PlayerId: board.Turn, Cash: -board.BuyCost})

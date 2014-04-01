@@ -106,7 +106,7 @@ $(function () {
 	}
 	
 	function UpdatePlayerSpace(id) {
-		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(board.Spaces[board.GetCurrentPlayer().Position].Name);
+		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(board.Spaces[board.Players[id].Position].Name);
 	}
 	
 	function UpdatePlayerCash(id) {

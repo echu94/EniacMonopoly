@@ -4,7 +4,7 @@ type Player struct {
 	IsHuman           bool
 	Cash              int
 	Order             int
-	Properties        []Property
+	OwnableSpaces     []*HandleSpacer `json:"-"`
 	Token             Tokens
 	Position          int
 	JailedTurn        int
