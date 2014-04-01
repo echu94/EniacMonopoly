@@ -174,7 +174,7 @@ func initializeSpaces() {
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Oriental Avenue", Position: 6}, nil, false, 0, 0, 100}, 1, 0, [6]int{6, 30, 90, 270, 400, 550}, 50})
 	board.Spaces = append(board.Spaces, &models.Chance{models.Space{Name: "Chance", Position: 7}})
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Vermont Avenue", Position: 8}, nil, false, 0, 0, 100}, 1, 0, [6]int{6, 30, 90, 270, 400, 550}, 50})
-	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Connecticut Avenue", Position: 9}, nil, false, 0, 120, 0}, 1, 0, [6]int{8, 40, 100, 300, 450, 600}, 50})
+	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Connecticut Avenue", Position: 9}, nil, false, 0, 0, 120}, 1, 0, [6]int{8, 40, 100, 300, 450, 600}, 50})
 	board.Spaces = append(board.Spaces, &models.Space{Name: "Jail", Position: 10})
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "St. Charles Place", Position: 11}, nil, false, 0, 0, 140}, 2, 0, [6]int{10, 50, 150, 450, 625, 750}, 100})
 	board.Spaces = append(board.Spaces, &models.Utility{models.OwnableSpace{models.Space{Name: "Electric Company", Position: 12}, nil, false, 0, 0, 150}})
