@@ -4,13 +4,18 @@ $(function () {
 	
 	// load handlers
 	handlers.Roll = function (data) {
-		$('#Status').text('Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.');		
+		var text = 'Rolled a ' + data.Dice1 + ' and a ' + data.Dice2 + '.';
+		if(data.Dice1 == data.Dice2) {
+			text += ' Doubles!';	
+		}	
+		Log(text);		
 	};
 	handlers.SetPlayerPosition = function (data) {
 		var player = board.GetCurrentPlayer();
 		player.Position = data.Position;
 		
 		UpdatePlayerSpace(board.Turn);
+		Log('Landed on ' + board.GetCurrentSpace().Name + '.');	
 	};
 	handlers.NextTurn = function (data) {
 		board.Turn = data.Turn;
@@ -21,7 +26,8 @@ $(function () {
 		UpdatePlayerTurn();
 	};
 	handlers.AddCash = function (data) {
-		$('#Status').text('Received ' + data.Cash + ' dollars.');	
+		var verb = data.Cash > 0 ? ' gained ' : ' lost ';
+		Log('Player ' + (data.PlayerId + 1) + verb + Math.abs(data.Cash) + ' dollars.');
 	};
 	handlers.State = function (data) {
 		board = new Board(data.Board);
@@ -50,7 +56,9 @@ $(function () {
 	};
 	handlers.PropertyOwner = function (data) {
 		board.Spaces[data.PropertyId].Owner = board.Players[data.PlayerId];
-		
+	};
+	handlers.BuySpace = function (data) {
+		Log(board.Spaces[data.PropertyId].Name + ' was bought by Player ' + (board.Turn + 1) + '.');
 		// TODO: UI update
 	};
 	
@@ -115,6 +123,7 @@ $(function () {
 	
 	function UpdatePlayerTurn() {
 		$('#CurrentPlayer').text(board.Turn + 1);
+		Log("It's Player " + (board.Turn + 1) + "'s turn.");
 	}
 	
 	function UpdateRolled() {
@@ -123,10 +132,22 @@ $(function () {
 	}
 	
 	function UpdateBuy() {
-		$('#Status').text('Buy for ' + board.BuyCost + '?');	
+		if(board.BuyCost > 0) {
+			$('#Status').text('Buy ' + board.GetCurrentSpace().Name + ' for ' + board.BuyCost + '?');	
+		}
+		else {
+			$('#Status').text('');	
+		}
 		$('#Buy').prop('disabled', board.BuyCost == 0);
 		$('#Pass').prop('disabled', board.BuyCost == 0);
 		
 		UpdateRolled();
+	}
+	
+	function Log(s) {
+		var t = new Date();
+		var $textarea = $('textarea');
+		$textarea.val($textarea.val() + "\n" + '[' + t.toLocaleString() + '] ' +  s)
+		$textarea.scrollTop($textarea[0].scrollHeight);
 	}
 });

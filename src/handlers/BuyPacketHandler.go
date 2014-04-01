@@ -38,6 +38,7 @@ func (h buyPacketHandler) handlePacket(data string) []interface{} {
 	board.BuyCost = 0
 	packets = append(packets, models.BuyCostPacket{Id: "BuyCost", Cost: board.BuyCost})
 	packets = append(packets, models.PropertyOwnerPacket{Id: "PropertyOwner", PropertyId: player.Position, PlayerId: player.Order})
+	packets = append(packets, models.BuySpacePacket{Id: "BuySpace", PropertyId: player.Position})
 
 	return packets
 }

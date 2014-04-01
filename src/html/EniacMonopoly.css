@@ -1,7 +1,11 @@
+html, body { 
+	background: #111;
+	color: #FEE8D6;
+}
 .PlayerInfo {
 	display: inline-block;
 	margin-right: 20px;
-	border: 1px solid black;
+	border: 1px solid #FEE8D6;
 	padding: 5px;
 }
 #W {
@@ -17,4 +21,20 @@
 	width: 900px;
 	height: 900px;
 	background: url(board.jpg) center no-repeat;
+}
+#Text {
+	position: absolute;
+	bottom: 10px;
+	top: 0;
+	left: 918px;
+	right: 0;
+}
+textarea {
+	width: 100%;
+	height: 100%;
+}
+#Log {
+	position: relative;
+	height: 400px;
+	width: 100%;
 }

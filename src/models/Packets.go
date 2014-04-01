@@ -55,3 +55,8 @@ type PropertyOwnerPacket struct {
 	PropertyId int
 	PlayerId   int
 }
+
+type BuySpacePacket struct {
+	Id         string
+	PropertyId int
+}

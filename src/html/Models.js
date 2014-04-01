@@ -50,3 +50,7 @@ function Board(src) {
 Board.prototype.GetCurrentPlayer = function () {
 	return this.Players[this.Turn];
 }
+
+Board.prototype.GetCurrentSpace = function () {
+	return this.Spaces[this.GetCurrentPlayer().Position];
+}
