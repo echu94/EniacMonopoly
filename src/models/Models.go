@@ -76,7 +76,7 @@ type Property struct {
 	OwnableSpace
 	Color       Colors
 	Upgrades    int
-	Rent        []int
+	Rent        [6]int
 	UpgradeCost int
 }
 
