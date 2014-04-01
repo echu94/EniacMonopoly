@@ -187,7 +187,6 @@ func initializeSpaces() {
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "New York Avenue", Position: 19}, nil, false, 0, 0, 200}, 3, 0, [6]int{16, 80, 220, 600, 800, 1000}, 100})
 	board.Spaces = append(board.Spaces, &models.Space{Name: "Free Parking", Position: 20})
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Kentucky Avenue", Position: 21}, nil, false, 0, 0, 220}, 4, 0, [6]int{18, 90, 250, 700, 875, 1050}, 150})
-	board.Spaces = append(board.Spaces, &models.Space{Name: "Free Parking", Position: 20})
 	board.Spaces = append(board.Spaces, &models.Chance{models.Space{Name: "Chance", Position: 22}})
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Indiana Avenue", Position: 23}, nil, false, 0, 0, 220}, 4, 0, [6]int{18, 90, 250, 700, 875, 1050}, 150})
 	board.Spaces = append(board.Spaces, &models.Property{models.OwnableSpace{models.Space{Name: "Illinois Avenue", Position: 24}, nil, false, 0, 0, 240}, 4, 0, [6]int{20, 100, 300, 750, 925, 1100}, 150})
