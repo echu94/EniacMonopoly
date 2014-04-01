@@ -28,6 +28,8 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 	player.Position += r1 + r2
 	spaces := len(board.Spaces)
 
+	packets = append(packets, models.RollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
+
 	if r1 == r2 {
 		if board.DoublesCount == 2 {
 			// TODO: Goto jail
@@ -50,7 +52,6 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 		packets = append(packets, models.SetCashPacket{Id: "SetCash", PlayerId: board.Turn, Cash: player.Cash})
 	}
 
-	packets = append(packets, models.RollResponsePacket{Id: "Roll", Dice1: r1, Dice2: r2})
 	packets = append(packets, models.SetPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
 	if p := (*board.GetCurrentSpace()).HandleSpace(&board); p != nil {
 		packets = append(packets, p...)

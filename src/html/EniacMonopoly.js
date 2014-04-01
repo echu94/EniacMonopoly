@@ -8,14 +8,14 @@ $(function () {
 		if(data.Dice1 == data.Dice2) {
 			text += ' Doubles!';	
 		}	
-		Log(text);		
+		Log(text, 1);		
 	};
 	handlers.SetPlayerPosition = function (data) {
 		var player = board.GetCurrentPlayer();
 		player.Position = data.Position;
 		
 		UpdatePlayerSpace(board.Turn);
-		Log('Landed on ' + board.GetCurrentSpace().Name + '.');	
+		Log('Landed on ' + board.GetCurrentSpace().Name + '.', 1);	
 	};
 	handlers.NextTurn = function (data) {
 		board.Turn = data.Turn;
@@ -26,8 +26,8 @@ $(function () {
 		UpdatePlayerTurn();
 	};
 	handlers.AddCash = function (data) {
-		var verb = data.Cash > 0 ? ' gained ' : ' lost ';
-		Log('Player ' + (data.PlayerId + 1) + verb + Math.abs(data.Cash) + ' dollars.');
+		var verb = data.Cash > 0 ? 'Gained ' : 'Lost ';
+		Log(verb + Math.abs(data.Cash) + ' dollars.', 1);
 	};
 	handlers.State = function (data) {
 		board = new Board(data.Board);
@@ -58,7 +58,7 @@ $(function () {
 		board.Spaces[data.PropertyId].Owner = board.Players[data.PlayerId];
 	};
 	handlers.BuySpace = function (data) {
-		Log(board.Spaces[data.PropertyId].Name + ' was bought by Player ' + (board.Turn + 1) + '.');
+		Log(board.Spaces[data.PropertyId].Name + ' was bought.', 1);
 		// TODO: UI update
 	};
 	
@@ -144,10 +144,14 @@ $(function () {
 		UpdateRolled();
 	}
 	
-	function Log(s) {
+	function Log(s, level) {
 		var t = new Date();
-		var $textarea = $('textarea');
-		$textarea.val($textarea.val() + "\n" + '[' + t.toLocaleString() + '] ' +  s)
+		var $textarea = $('#Log');
+		level = level || 0;
+		for(var i = 0; i < level; ++i) {
+			s = '&nbsp;&nbsp;' + s;
+		}
+		$textarea.html($textarea.html() + '<br><span class="LogText">' + '[' + t.toLocaleTimeString() + '] ' +  s + '</span>')
 		$textarea.scrollTop($textarea[0].scrollHeight);
 	}
 });

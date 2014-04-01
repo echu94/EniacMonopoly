@@ -1,6 +1,7 @@
 html, body { 
 	background: #111;
 	color: #FEE8D6;
+	font-family: sans-serif;
 }
 .PlayerInfo {
 	display: inline-block;
@@ -22,19 +23,20 @@ html, body {
 	height: 900px;
 	background: url(board.jpg) center no-repeat;
 }
-#Text {
-	position: absolute;
-	bottom: 10px;
-	top: 0;
-	left: 918px;
-	right: 0;
-}
 textarea {
 	width: 100%;
 	height: 100%;
 }
 #Log {
-	position: relative;
-	height: 400px;
-	width: 100%;
+	height: 200px;
+	overflow-y: scroll;
+	background: #222;
+	color: #FEE8D6;
+	border: 2px solid black;
+	padding: 2px;
+	margin-bottom: 6px;
+	font-family: Monaco, monospace;
+}
+.LogText {
+	color: #888;
 }
