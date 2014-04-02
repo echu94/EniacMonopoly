@@ -15,6 +15,7 @@ func loadMimeTypes() {
 	mimeTypes[".css"] = "text/css"
 	mimeTypes[".js"] = "application/javascript"
 	mimeTypes[".html"] = "text/html"
+	mimeTypes[".jpg"] = "image/jpeg"
 }
 
 func HttpHandler(w http.ResponseWriter, r *http.Request) {

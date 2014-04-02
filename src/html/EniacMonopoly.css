@@ -10,19 +10,18 @@ html, body {
 	padding: 5px;
 }
 #W {
-	float: left;
 	border: 2px solid #444444;
 	width: 906px;
 	height: 906px;
-	box-shadow: 3px 3px 4px gray;
 	margin: 0 8px 8px 0;
 }
-#Board {
-	border: 3px solid black;
+#GameBoard {
+	float: left;
 	width: 900px;
 	height: 900px;
-	background: url(board.jpg) center no-repeat;
-	position: relative;
+	margin: 0 8px 8px 0;
+	box-shadow: 3px 3px 4px black;
+	background: url('board.jpg');
 }
 textarea {
 	width: 100%;
