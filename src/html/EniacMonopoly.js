@@ -179,6 +179,9 @@ $(function () {
 		Log("It's Player " + (board.Turn + 1) + "'s turn.");
 		$('#Tokens > div').removeClass('Active');
 		$('#Token' + board.Turn).addClass('Active');
+		$('.PlayerInfo').removeClass('Border0');
+		$('.PlayerInfo.Player' + board.Turn).addClass('Border0');
+		$('#ActivePlayer').attr('class', 'Player' + board.Turn);
 	}
 	
 	function UpdateRolled() {

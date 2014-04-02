@@ -1,43 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>EniacMonopoly</title>
-<script src="jquery-1.11.0.min.js" type="text/javascript"></script>
-<script src="Models.js"></script>
-<script src="Packets.js"></script>
-<script src="EniacMonopoly.js"></script>
-<link rel="stylesheet" href="EniacMonopoly.css">
-</head>
-<body>
-<div id="W">
-	<div id="Board">
-		<div id="Tokens">
-			<template>
-			<div id="Token0">
-				<div class="TokenIcon Bg0 "></div>
+	<head>
+		<meta charset="utf-8">
+		<title>EniacMonopoly</title>
+		<script src="jquery-1.11.0.min.js" type="text/javascript"></script>
+		<script src="Models.js"></script>
+		<script src="Packets.js"></script>
+		<script src="EniacMonopoly.js"></script>
+		<link rel="stylesheet" href="EniacMonopoly.css">
+	</head>
+	<body>
+	<div id="W">
+		<div id="Board">
+			<div id="Tokens">
+				<template>
+					<div id="Token0">
+						<div class="TokenIcon Bg0 "></div>
+					</div>
+				</template>
 			</div>
-			</template>
 		</div>
 	</div>
-</div>
-<div id="Log">
-EniacMonopoly
-</div>
-<div id="PlayerInfos">
-	<template>
-	<div class="PlayerInfo">
-		<div class="Color0">Player <span class="PlayerId"></span></div>
-		<div>Cash: <span class="PlayerCash"></span></div>
+	<div>
+		<span id="ActivePlayer" class="Player0">It is <span class="Color0">Player <span id="CurrentPlayer">1</span></span>'s turn.</span> <span id="Status"></span>
 	</div>
-	</template>
-</div>
-<span id="CurrentSpace"></span>
-<div>It is Player <span id="CurrentPlayer"></span>'s turn.</div>
-<div id="Status"></div>
-<button id="Roll">Roll</button>
-<button id="End">End</button>
-<button id="Buy">Buy</button>
-<button id="Pass">Pass</button>
-</body>
+	<button id="Roll">Roll</button>
+	<button id="End">End</button>
+	<button id="Buy">Buy</button>
+	<button id="Pass">Pass</button>
+	<div id="Log">
+		EniacMonopoly
+	</div>
+	<div id="PlayerInfos">
+		<template>
+			<div class="PlayerInfo">
+				<div class="Color0">
+					Player <span class="PlayerId"></span>
+				</div>
+				<div>
+					Cash: $<span class="PlayerCash"></span>
+				</div>
+			</div>
+		</template>
+	</div>
+	<span id="CurrentSpace"></span>
+	
+	</body>
 </html>
