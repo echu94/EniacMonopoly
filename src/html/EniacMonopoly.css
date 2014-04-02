@@ -1,4 +1,4 @@
-html, body { 
+html, body {
 	background: #111;
 	color: #FEE8D6;
 	font-family: sans-serif;
@@ -61,56 +61,56 @@ textarea {
 	border: 1px solid grey;
 	margin: 4px;
 }
-#Token0 {	
+#Token0 {
 	bottom: 5px;
 	right: 5px;
 }
-#Token1 {	
+#Token1 {
 	bottom: 25px;
 	right: 25px;
 }
-#Token2 {	
+#Token2 {
 	bottom: 45px;
 	right: 45px
 }
-#Token3 {	
+#Token3 {
 	bottom: 65px;
 	right: 65px;
 }
- 
+
 .Player0 .Color0, .Player0.Color0 {
-	color: green;		
+	color: green;
 }
 .Player1 .Color0, .Player1.Color0 {
-	color: red;	
+	color: red;
 }
 .Player2 .Color0 ,.Player2.Color0 {
-	color: blue;		
+	color: blue;
 }
 .Player3 .Color0, .Player3.Color0 {
-	color: orange;	
+	color: orange;
 }
 .Player0 .Bg0, .Player0.Bg0 {
-	background: green;			
+	background: green;
 }
 .Player1 .Bg0, .Player1.Bg0 {
-	background: red;	
+	background: red;
 }
 .Player2 .Bg0 ,.Player2.Bg0 {
-	background: blue;		
+	background: blue;
 }
 .Player3 .Bg0, .Player3.Bg0 {
-	background: orange;	
+	background: orange;
 }
 .Player0 .Border0, .Player0.Border0 {
-	border-color: green;			
+	border-color: green;
 }
 .Player1 .Border0, .Player1.Border0 {
-	border-color: red;	
+	border-color: red;
 }
 .Player2 .Border0 ,.Player2.Border0 {
-	border-color: blue;		
+	border-color: blue;
 }
 .Player3 .Border0, .Player3.Border0 {
-	border-color: orange;	
+	border-color: orange;
 }
