@@ -22,6 +22,7 @@ html, body {
 	width: 900px;
 	height: 900px;
 	background: url(board.jpg) center no-repeat;
+	position: relative;
 }
 textarea {
 	width: 100%;
@@ -39,4 +40,64 @@ textarea {
 }
 .LogText {
 	color: #888;
+}
+#Tokens > div {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	transition: all 1s ease;
+}
+#Tokens > .Active .TokenIcon {
+	border: 1px solid black;
+	width: 18px;
+	height: 18px;
+	border-radius: 10px;
+	margin: 0;
+}
+.TokenIcon {
+	width: 10px;
+	height: 10px;
+	border-radius: 6px;
+	border: 1px solid grey;
+	margin: 4px;
+}
+#Token0 {	
+	bottom: 5px;
+	right: 5px;
+}
+#Token1 {	
+	bottom: 25px;
+	right: 25px;
+}
+#Token2 {	
+	bottom: 45px;
+	right: 45px
+}
+#Token3 {	
+	bottom: 65px;
+	right: 65px;
+}
+.Player0 .Color0, .Player0.Color0 {
+	color: green;		
+}
+.Player1 .Color0, .Player1.Color0 {
+	color: red;	
+}
+.Player2 .Color0 ,.Player2.Color0 {
+	color: blue;		
+}
+.Player3 .Color0, .Player3.Color0 {
+	color: orange;	
+}
+.Player0 .Bg0, .Player0.Bg0 {
+	background: green;			
+}
+.Player1 .Bg0, .Player1.Bg0 {
+	background: red;	
+}
+.Player2 .Bg0 ,.Player2.Bg0 {
+	background: blue;		
+}
+.Player3 .Bg0, .Player3.Bg0 {
+	background: orange;	
 }

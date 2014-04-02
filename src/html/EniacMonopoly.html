@@ -11,20 +11,26 @@
 </head>
 <body>
 <div id="W">
-<div id="Board">
-</div>
+	<div id="Board">
+		<div id="Tokens">
+			<template>
+			<div id="Token0">
+				<div class="TokenIcon Bg0 "></div>
+			</div>
+			</template>
+		</div>
+	</div>
 </div>
 <div id="Log">
 EniacMonopoly
 </div>
 <div id="PlayerInfos">
-<template>
+	<template>
 	<div class="PlayerInfo">
-		<div>Player <span class="PlayerId"></span></div>
-		<div>Space: <span class="PlayerSpace"></span></div>
+		<div class="Color0">Player <span class="PlayerId"></span></div>
 		<div>Cash: <span class="PlayerCash"></span></div>
 	</div>
-</template>
+	</template>
 </div>
 <span id="CurrentSpace"></span>
 <div>It is Player <span id="CurrentPlayer"></span>'s turn.</div>

@@ -85,6 +85,7 @@ $(function () {
 	
 	function Initialize() {
 		for(var i = 0; i < board.Players.length; ++i) {
+			AddToken(i);
 			AddPlayerInfo(i);
 			UpdatePlayerSpace(i);
 			UpdatePlayerCash(i);
@@ -107,14 +108,66 @@ $(function () {
 	}
 	
 	function AddPlayerInfo(id) {
-		$player = $($('#PlayerInfos > template').html())
+		$player = $($('#PlayerInfos > template').html());
 		$player.addClass('Player' + id);
 		$player.find('.PlayerId').text(id + 1);
 		$('#PlayerInfos').append($player);
 	}
 	
+	function AddToken(id) {
+		$token = $($('#Tokens > template').html());
+		// todo: remove id
+		$token.attr('id', 'Token' + id);
+		$token.addClass('Player' + id);
+		$('#Tokens').append($token);
+	}
+	
 	function UpdatePlayerSpace(id) {
-		$('#PlayerInfos').children('.Player' + id).find('.PlayerSpace').text(board.Spaces[board.Players[id].Position].Name);
+		var position = board.Players[id].Position;
+		
+		var width = 73;
+		var edgeOffset = 73;
+		var offset = 5 + 20 * id;
+		var css = {
+			top: '',
+			right: '',
+			bottom: '',
+			left: ''
+		};
+		if(position == 0) {
+			css.right = offset + 'px';
+			css.bottom = offset + 'px';
+		}
+		else if(position < 10) {
+			css.bottom = offset + 'px';
+			css.right = position * width + edgeOffset + 'px';
+		}
+		else if(position == 10) {
+			css.bottom = offset + 'px';
+			css.left = offset + 'px';
+		}
+		else if(position < 20) {
+			css.bottom = (position % 10) * width + edgeOffset + 'px';
+			css.left = offset + 'px';
+		}
+		else if(position == 20) {
+			css.top = offset + 'px';
+			css.left = offset + 'px';
+		}
+		else if(position < 30) {
+			css.top = offset + 'px';
+			css.left = (position % 10) * width + edgeOffset + 4 + 'px';
+		}
+		else if(position == 30) {
+			css.top = offset + 'px';
+			css.right = offset + 'px';
+		}
+		else {
+			css.top = (position % 10) * width + edgeOffset + 5 + 'px';
+			css.right = offset + 'px';
+		}
+		
+		$('#Token' + id).css(css);
 	}
 	
 	function UpdatePlayerCash(id) {
@@ -124,6 +177,8 @@ $(function () {
 	function UpdatePlayerTurn() {
 		$('#CurrentPlayer').text(board.Turn + 1);
 		Log("It's Player " + (board.Turn + 1) + "'s turn.");
+		$('#Tokens > div').removeClass('Active');
+		$('#Token' + board.Turn).addClass('Active');
 	}
 	
 	function UpdateRolled() {
