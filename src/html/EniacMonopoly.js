@@ -172,11 +172,12 @@ $(function () {
 	};
 	handlers.BuySpace = function (data) {
 		Log(board.Spaces[data.PropertyId].Name + ' was bought.', 1);
-		// TODO: UI update
 	};
 	handlers.Say = function (data) {
 		Say(data.PlayerId, data.Data);
-		// TODO: UI update
+	};
+	handlers.Chance = function (data) {
+		Log('Chance: ' + data.Description);
 	};
 	
 	function Say(id, data) {

@@ -66,3 +66,8 @@ type SayPacket struct {
 	PlayerId int
 	Data     string
 }
+
+type ChancePacket struct {
+	Id          string
+	Description string
+}

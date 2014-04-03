@@ -10,7 +10,7 @@ func (p *Chance) HandleSpace(b *Board) []interface{} {
 
 	packets := make([]interface{}, 0)
 
-	//TODO: Deliver chance packet
+	packets = append(packets, ChancePacket{Id: "Chance", Description: card.Description})
 
 	switch card.Id {
 	// TODO:
