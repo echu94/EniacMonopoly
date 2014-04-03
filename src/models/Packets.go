@@ -60,3 +60,9 @@ type BuySpacePacket struct {
 	Id         string
 	PropertyId int
 }
+
+type SayPacket struct {
+	Id       string
+	PlayerId int
+	Data     string
+}

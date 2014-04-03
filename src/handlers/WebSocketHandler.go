@@ -33,6 +33,7 @@ func loadPacketHandlers() {
 	loadRollPacketHandler()
 	loadEndTurnPacketHandler()
 	loadBuyPacketHandler()
+	loadSayPacketHandler()
 }
 
 var board models.Board

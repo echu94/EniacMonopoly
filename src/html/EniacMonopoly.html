@@ -14,15 +14,19 @@
 	<canvas width="900" height="900" id="GameBoard">
 	
 	</canvas>
-	<div>
-		<span id="ActivePlayer" class="Player0">It is <span class="Color0">Player <span id="CurrentPlayer">1</span></span>'s turn.</span> <span id="Status"></span>
-	</div>
+	<div id="UI">
+	<span id="ActivePlayer" class="Player0">It is <span class="Color0">Player <span id="CurrentPlayer">1</span></span>'s turn.</span> <span id="Status"></span><br>
 	<button id="Roll">Roll</button>
 	<button id="End">End</button>
 	<button id="Buy">Buy</button>
 	<button id="Pass">Pass</button>
-	<div id="Log">
-		EniacMonopoly
+	<div id="Chat">
+		<div id="Log">
+			EniacMonopoly
+		</div>
+		<div id="ChatBox">
+			<input type="text" id="Say">
+		</div>
 	</div>
 	<div id="PlayerInfos">
 		<template>
@@ -39,4 +43,5 @@
 	<span id="CurrentSpace"></span>
 	
 	</body>
+	</div>
 </html>

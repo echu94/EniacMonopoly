@@ -18,5 +18,11 @@ var Packets = {
 		var packet = {};
 		packet.Id = "Pass";
 		return JSON.stringify(packet);
+	},
+	GetSayPacket: function(data) {
+		var packet = {};
+		packet.Id = "Say";
+		packet.Data = data;
+		return JSON.stringify(packet);
 	}
 }

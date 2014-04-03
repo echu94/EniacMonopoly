@@ -102,6 +102,12 @@ $(function () {
 		$('#Pass').on('click', function () {
 			socket.send(Packets.GetPassPacket());
 		});
+		$('#Say').on('keypress', function(event) {
+			if(event.keyCode == 13) {
+				socket.send(Packets.GetSayPacket($(this).val()));
+				$(this).val('');
+			}
+		});
 	}
 	
 	// load handlers
@@ -168,16 +174,27 @@ $(function () {
 		Log(board.Spaces[data.PropertyId].Name + ' was bought.', 1);
 		// TODO: UI update
 	};
+	handlers.Say = function (data) {
+		Say(data.PlayerId, data.Data);
+		// TODO: UI update
+	};
+	
+	function Say(id, data) {
+		var t = new Date();
+		var $log = $('#Log');
+		$log.html($log.html() + '<br><span class="SayText">' + '[' + t.toLocaleTimeString() + '] Player ' + (id + 1) + ': ' + data + '</span>')
+		$log.scrollTop($log[0].scrollHeight);
+	}
 	
 	// Logger
 	function Log(s, level) {
 		var t = new Date();
-		var $textarea = $('#Log');
+		var $log = $('#Log');
 		level = level || 0;
 		for(var i = 0; i < level; ++i) {
 			s = '&nbsp;&nbsp;' + s;
 		}
-		$textarea.html($textarea.html() + '<br><span class="LogText">' + '[' + t.toLocaleTimeString() + '] ' +  s + '</span>')
-		$textarea.scrollTop($textarea[0].scrollHeight);
+		$log.html($log.html() + '<br><span class="LogText">' + '[' + t.toLocaleTimeString() + '] ' +  s + '</span>')
+		$log.scrollTop($log[0].scrollHeight);
 	}
 });
