@@ -31,7 +31,7 @@ $(function () {
 	}
 	
 	function UpdatePlayerSpace(id, previous) {
-		if(previous) {
+		if(!isNaN(previous)) {
 			gameBoard.ClearToken(id, previous);			
 		}
 		gameBoard.DrawToken(id, board.Players[id].Position, board.Turn == id);
