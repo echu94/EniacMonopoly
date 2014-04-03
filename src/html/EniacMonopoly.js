@@ -72,6 +72,9 @@ $(function () {
 		
 		UpdateRolled();
 	}
+	function UpdatePropertyOwner(id, position) {
+		gameBoard.DrawOwner(id, position);	
+	}
 	
 	function Initialize() {
 		for(var i = 0; i < board.Players.length; ++i) {
@@ -79,6 +82,10 @@ $(function () {
 			AddPlayerInfo(i);
 			UpdatePlayerSpace(i);
 			UpdatePlayerCash(i);
+
+			for(var j = 0 ; j < board.Players[i].OwnableSpaces.length; ++j) {
+				gameBoard.DrawOwner(i, board.Players[i].OwnableSpaces[j].Position);
+			}			
 		}
 		UpdatePlayerTurn();
 		UpdateBuy();
@@ -154,6 +161,8 @@ $(function () {
 	};
 	handlers.PropertyOwner = function (data) {
 		board.Spaces[data.PropertyId].Owner = board.Players[data.PlayerId];
+		
+		UpdatePropertyOwner(data.PlayerId, data.PropertyId);
 	};
 	handlers.BuySpace = function (data) {
 		Log(board.Spaces[data.PropertyId].Name + ' was bought.', 1);

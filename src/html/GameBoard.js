@@ -24,15 +24,16 @@ GameBoard.prototype.DrawToken = function (id, position, active) {
 	
 	
 	context.fillStyle = this.Colors[id];
+	context.strokeStyle = 'black';
 	context.beginPath();	
 	context.arc(coords.X, coords.Y, radius, 0, 2 * Math.PI, true);
 	context.fill();
+    context.lineWidth = 1;
 	context.stroke();
 };
 
 GameBoard.prototype.ClearToken = function (id, position) {
 	var context = this.Context;
-	ctx = context;
 	
 	var coords = this.GetCoords(id, position);
 	
@@ -40,35 +41,78 @@ GameBoard.prototype.ClearToken = function (id, position) {
 };
 
 GameBoard.prototype.GetCoords = function (id, position) {
-	var offset = (4 - id) * 20;
-	var width = 73;
+	var width = 72;
+	var height = (4 - id) * 20;
+	var offset = 90;
 	
 	var coords;
 	
 	if(position == 0) {
-		coords = { X: 900 - offset, Y: 900 - offset };
+		coords = { X: 900 - height, Y: 900 - height };
 	}
 	else if(position < 10) {
-		coords = { X: (10 - position) * width + 85, Y: 900 - offset };
+		coords = { X: (10 - position) * width + offset, Y: 900 - height };
 	}
 	else if(position == 10) {
-		coords = { X: offset, Y: 900 - offset };
+		coords = { X: height, Y: 900 - height };
 	}
 	else if(position < 20) {
-		coords = { X: offset, Y: (20 - position) * width + 85 }
+		coords = { X: height, Y: (20 - position) * width + offset }
 	}
 	else if(position == 20) {
-		coords = { X: offset, Y: offset };
+		coords = { X: height, Y: height };
 	}
 	else if(position < 30) {
-		coords = { X: (position - 20) * width + 85, Y: offset }
+		coords = { X: (position - 20) * width + offset, Y: height }
 	}
 	else if(position == 30) {
-		coords = { X: 900 - offset, Y: offset };
+		coords = { X: 900 - height, Y: height };
 	}
 	else {
-		coords = { X: 900 - offset, Y: ( position - 30) * width + 85 };
+		coords = { X: 900 - height, Y: ( position - 30) * width + offset };
 	}
 	
 	return coords;
+};
+
+GameBoard.prototype.DrawOwner = function (id, position) {
+	var context = this.Context;
+	var coords = this.GetCoords(id, position);
+	
+	var start = {};
+	var end = {};
+	
+	var h = 33;
+	
+	if(position < 10) {
+		start.X = coords.X - h;
+		start.Y = 900;
+		end.X = coords.X + h;
+		end.Y = 900;
+	}
+	else if(position < 20) {
+		start.X = 0;
+		start.Y = coords.Y - h;
+		end.X = 0;
+		end.Y = coords.Y + h;
+	}
+	else if(position < 30) {
+		start.X = coords.X - h;
+		start.Y = 0;
+		end.X = coords.X + h;
+		end.Y = 0;
+	}
+	else {
+		start.X = 900;
+		start.Y = coords.Y - h;
+		end.X = 900;
+		end.Y = coords.Y + h;
+	}
+	
+	context.strokeStyle = this.Colors[id];
+	context.beginPath();	
+	context.moveTo(start.X, start.Y);
+	context.lineTo(end.X, end.Y);
+	context.lineWidth = 12;
+	context.stroke();
 };

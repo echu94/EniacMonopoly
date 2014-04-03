@@ -21,7 +21,7 @@ html, body {
 	height: 900px;
 	margin: 0 8px 8px 0;
 	box-shadow: 3px 3px 4px black;
-	background: url('board.jpg');
+	background: url('board.png');
 }
 textarea {
 	width: 100%;
