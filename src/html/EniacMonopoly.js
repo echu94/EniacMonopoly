@@ -110,7 +110,8 @@ $(function () {
 		});
 	}
 	
-	// load handlers
+	// TODO: Extract to separate file
+	// Load handlers
 	var handlers = {};
 		
 	handlers.Roll = function (data) {
@@ -178,6 +179,17 @@ $(function () {
 	};
 	handlers.Chance = function (data) {
 		Log('Chance: ' + data.Description);
+	};
+	handlers.Player = function (data) {
+		var i = data.Player.Order;
+		board.Players.push(new Player(data.Player))
+		
+		gameBoard.DrawToken(i, board.Players[i].Position);
+		AddPlayerInfo(i);
+		UpdatePlayerSpace(i);
+		UpdatePlayerCash(i);
+		
+		Log('Player ' + (i + 1) + ' has joined the game.');
 	};
 	
 	function Say(id, data) {

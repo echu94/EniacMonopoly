@@ -71,3 +71,8 @@ type ChancePacket struct {
 	Id          string
 	Description string
 }
+
+type PlayerPacket struct {
+	Id     string
+	Player Player
+}

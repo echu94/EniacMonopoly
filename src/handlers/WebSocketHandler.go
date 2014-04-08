@@ -39,16 +39,7 @@ func loadPacketHandlers() {
 var board models.Board
 
 func initializeBoard() {
-	board.Players = make([]models.Player, 2)
-	for i := 0; i < len(board.Players); i++ {
-		board.Players[i] = models.Player{
-			IsHuman:    true,
-			Cash:       1500,
-			Order:      i,
-			Token:      models.Tokens(i),
-			JailedTurn: -1,
-		}
-	}
+	board.Players = make([]models.Player, 0)
 
 	initializeSpaces()
 
@@ -56,6 +47,8 @@ func initializeBoard() {
 }
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO: Move to main
+	// Global packet handler initializer
 	if len(jsonPacketHandlers) == 0 {
 		loadPacketHandlers()
 	}
@@ -76,9 +69,17 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Send hello & state
+	// Send state
 	packets := make([]interface{}, 0)
 	packets = append(packets, models.StatePacket{Id: "State", Board: board})
+
+	if board.ElapsedTurns == 0 && len(board.Players) < 4 {
+		// add player
+		//TODO: Send to all clients in room
+		p := board.AddPlayer()
+		packets = append(packets, models.PlayerPacket{Id: "Player", Player: *p})
+	}
+
 	packet := packetWrapper{Packets: packets}
 	if err := conn.WriteJSON(&packet); err != nil {
 		fmt.Println("Could not write JSON:", err.Error())

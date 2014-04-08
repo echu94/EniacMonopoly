@@ -107,6 +107,7 @@ type Board struct {
 	HasRolled           bool
 	Spaces              []HandleSpacer
 	BuyCost             int
+	ElapsedTurns        int
 }
 
 func (b *Board) NextTurn() {
@@ -114,6 +115,7 @@ func (b *Board) NextTurn() {
 	b.Turn %= len(b.Players)
 	b.HasRolled = false
 	b.DoublesCount = 0
+	b.ElapsedTurns++
 }
 
 func (b *Board) GetCurrentPlayer() *Player {
@@ -122,6 +124,19 @@ func (b *Board) GetCurrentPlayer() *Player {
 
 func (b *Board) GetCurrentSpace() *HandleSpacer {
 	return &b.Spaces[b.GetCurrentPlayer().Position]
+}
+
+func (b *Board) AddPlayer() *Player {
+	i := len(b.Players)
+	p := Player{
+		IsHuman:    true,
+		Cash:       1500,
+		Order:      i,
+		Token:      Tokens(i),
+		JailedTurn: -1,
+	}
+	b.Players = append(b.Players, p)
+	return &p
 }
 
 type HandleSpacer interface {
