@@ -14,7 +14,9 @@ func loadRollPacketHandler() {
 	jsonPacketHandlers[handler.Id] = handler
 }
 
-func (h rollPacketHandler) handlePacket(data string) []interface{} {
+func (h rollPacketHandler) handlePacket(data string, room *models.Room) []interface{} {
+	board := &room.Board
+
 	if board.HasRolled || board.BuyCost > 0 {
 		return nil
 	}
@@ -53,7 +55,7 @@ func (h rollPacketHandler) handlePacket(data string) []interface{} {
 	}
 
 	packets = append(packets, models.SetPlayerPositionPacket{Id: "SetPlayerPosition", Position: player.Position})
-	if p := (*board.GetCurrentSpace()).HandleSpace(&board); p != nil {
+	if p := (*board.GetCurrentSpace()).HandleSpace(board); p != nil {
 		packets = append(packets, p...)
 	}
 	return packets

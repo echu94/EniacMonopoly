@@ -13,7 +13,8 @@ func loadSayPacketHandler() {
 	jsonPacketHandlers[handler.Id] = handler
 }
 
-func (h sayPacketHandler) handlePacket(data string) []interface{} {
+func (h sayPacketHandler) handlePacket(data string, room *models.Room) []interface{} {
+	board := &room.Board
 	packets := make([]interface{}, 0)
 
 	// TODO: Implement source verification

@@ -3,10 +3,15 @@ package main
 import (
 	"fmt"
 	"handlers"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 func main() {
+	// General purpose random
+	rand.Seed(time.Now().UnixNano())
+
 	port := 7765
 
 	http.HandleFunc("/", handlers.HttpHandler)

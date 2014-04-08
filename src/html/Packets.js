@@ -24,5 +24,11 @@ var Packets = {
 		packet.Id = "Say";
 		packet.Data = data;
 		return JSON.stringify(packet);
+	},
+	GetRoomPacket: function(id) {
+		var packet = {};
+		packet.Id = "Room";
+		packet.Data = id.toString();
+		return JSON.stringify(packet);
 	}
 }

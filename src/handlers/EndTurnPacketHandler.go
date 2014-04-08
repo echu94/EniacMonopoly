@@ -13,7 +13,9 @@ func loadEndTurnPacketHandler() {
 	jsonPacketHandlers[handler.Id] = handler
 }
 
-func (h endTurnPacketHandler) handlePacket(data string) []interface{} {
+func (h endTurnPacketHandler) handlePacket(data string, room *models.Room) []interface{} {
+	board := &room.Board
+
 	if !board.HasRolled || board.BuyCost > 0 {
 		return nil
 	}

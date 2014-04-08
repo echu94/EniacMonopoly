@@ -1,6 +1,10 @@
 $(function () {
 	var socket = new WebSocket('ws://localhost:7765/websocket');
 	
+	socket.onopen = function () {
+		socket.send(Packets.GetRoomPacket(0));
+	};
+	
 	socket.onmessage = function (msg) {	
 		var packets = JSON.parse(msg.data).Packets;
 		

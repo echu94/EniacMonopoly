@@ -13,7 +13,9 @@ func loadBuyPacketHandler() {
 	jsonPacketHandlers[handler.Id] = handler
 }
 
-func (h buyPacketHandler) handlePacket(data string) []interface{} {
+func (h buyPacketHandler) handlePacket(data string, room *models.Room) []interface{} {
+	board := &room.Board
+
 	if board.BuyCost == 0 {
 		return nil
 	}
