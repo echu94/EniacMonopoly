@@ -27,7 +27,7 @@ type jsonHandlePacketler interface {
 
 var jsonPacketHandlers = make(map[string]jsonHandlePacketler)
 
-func loadPacketHandlers() {
+func LoadPacketHandlers() {
 	loadRollPacketHandler()
 	loadEndTurnPacketHandler()
 	loadBuyPacketHandler()
@@ -45,11 +45,6 @@ func getRoom(id int) *models.Room {
 }
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO: Move to main
-	// Global packet handler initializer
-	if len(jsonPacketHandlers) == 0 {
-		loadPacketHandlers()
-	}
 
 	fmt.Println("Incoming web socket request:", r.URL.Path)
 	conn, err := websocket.Upgrade(w, r, nil, 1024, 1024)

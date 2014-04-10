@@ -11,6 +11,7 @@ import (
 func main() {
 	// General purpose random
 	rand.Seed(time.Now().UnixNano())
+	handlers.LoadPacketHandlers()
 
 	port := 7765
 
