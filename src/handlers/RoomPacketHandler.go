@@ -9,12 +9,8 @@ type roomPacketHandler struct {
 	jsonPacketHandler
 }
 
-func loadRoomPacketHandler() {
-	handler := roomPacketHandler{jsonPacketHandler{Id: "Room"}}
-	jsonPacketHandlers[handler.Id] = handler
-}
+func handleRoomPacket(data string, c chan []interface{}) (int, []interface{}) {
 
-func (h roomPacketHandler) handlePacket(data string, room *models.Room) []interface{} {
 	packets := make([]interface{}, 0)
 
 	// TODO: Room timeout? delete game state after 30 minutes?
@@ -22,27 +18,33 @@ func (h roomPacketHandler) handlePacket(data string, room *models.Room) []interf
 	// TODO: return room id for new rooms
 	id, err := strconv.Atoi(data)
 	if err != nil {
-		return nil
+		return -1, nil
 	}
+
+	var board *models.Board
+	var room *models.Room
 
 	// TODO: -1 for new room
 	if len(rooms) <= id {
-		rooms = append(rooms, models.Room{})
-		room = &rooms[id]
-		room.Board.Initialize()
+		r := models.Room{}
+		r.Clients = make([]chan []interface{}, 0)
+		r.Board.Initialize()
+		rooms = append(rooms, r)
 	}
 
-	board := &room.Board
+	room = &rooms[id]
+	board = &room.Board
 
-	// Send state
-	packets = append(packets, models.StatePacket{Id: "State", Board: *board})
+	room.Clients = append(room.Clients, c)
 
-	if board.ElapsedTurns == 0 && len(board.Players) < 4 {
+	// State only to current client
+	c <- []interface{}{models.StatePacket{Id: "State", Board: *board}}
+
+	if !board.Started && len(board.Players) < 4 {
 		// add player
-		//TODO: Send to all clients in room
 		p := board.AddPlayer()
 		packets = append(packets, models.PlayerPacket{Id: "Player", Player: *p})
 	}
 
-	return packets
+	return id, packets
 }

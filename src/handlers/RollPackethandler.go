@@ -21,6 +21,9 @@ func (h rollPacketHandler) handlePacket(data string, room *models.Room) []interf
 		return nil
 	}
 
+	// TODO: Port to trade complete
+	board.Started = true
+
 	packets := make([]interface{}, 0)
 
 	r1 := rand.Intn(6) + 1

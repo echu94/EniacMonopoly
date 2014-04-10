@@ -5,7 +5,14 @@ import (
 )
 
 type Room struct {
-	Board Board
+	Board   Board
+	Clients []chan []interface{}
+}
+
+func (r *Room) Send(packets []interface{}) {
+	for i := 0; i < len(r.Clients); i++ {
+		r.Clients[i] <- packets
+	}
 }
 
 type Player struct {
@@ -115,7 +122,8 @@ type Board struct {
 	HasRolled           bool
 	Spaces              []HandleSpacer
 	BuyCost             int
-	ElapsedTurns        int
+	Started             bool
+	//ElapsedTurns        int
 }
 
 func (b *Board) NextTurn() {
@@ -123,7 +131,7 @@ func (b *Board) NextTurn() {
 	b.Turn %= len(b.Players)
 	b.HasRolled = false
 	b.DoublesCount = 0
-	b.ElapsedTurns++
+	//b.ElapsedTurns++
 }
 
 func (b *Board) GetCurrentPlayer() *Player {

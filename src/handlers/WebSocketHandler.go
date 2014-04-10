@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/websocket"
 	"models"
 	"net/http"
-	"strconv"
 )
 
 type jsonPacket struct {
@@ -33,9 +32,9 @@ func loadPacketHandlers() {
 	loadEndTurnPacketHandler()
 	loadBuyPacketHandler()
 	loadSayPacketHandler()
-	loadRoomPacketHandler()
 }
 
+// TODO: This should be a map
 var rooms = make([]models.Room, 0)
 
 func getRoom(id int) *models.Room {
@@ -63,8 +62,11 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	roomId := -1
+	var room *models.Room
+	var c chan []interface{}
 
-	for {
+	// Room packet handler
+	{
 		_, p, err := conn.ReadMessage()
 		if err != nil {
 			fmt.Println("Could not read message:", err.Error())
@@ -78,13 +80,53 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Roomless packets (not join room)
-		if roomId != -1 && data.Id == "Room" || roomId == -1 && data.Id != "Room" {
+		if data.Id != "Room" {
 			return
 		}
 
-		// TODO: better way to chance websocket room id?
-		if roomId == -1 {
-			roomId, _ = strconv.Atoi(data.Data)
+		c = make(chan []interface{}, 5)
+
+		rId, packets := handleRoomPacket(data.Data, c)
+
+		if rId == -1 {
+			return
+		}
+
+		roomId = rId
+
+		room = &rooms[roomId]
+		room.Send(packets)
+
+		go func() {
+			for packets := range c {
+				packet := packetWrapper{Packets: packets}
+				if err := conn.WriteJSON(packet); err != nil {
+					fmt.Println("Could not write JSON:", err.Error())
+					return
+				}
+			}
+		}()
+	}
+
+	for {
+		_, p, err := conn.ReadMessage()
+		if err != nil {
+			fmt.Println("Could not read message:", err.Error())
+			i := 0
+			for ; i < len(room.Clients); i++ {
+				if room.Clients[i] == c {
+					break
+				}
+			}
+			room.Clients[i], room.Clients = room.Clients[len(room.Clients)-1], room.Clients[:len(room.Clients)-1]
+			close(c)
+			return
+		}
+
+		var data jsonPacket
+		if err := json.Unmarshal(p, &data); err != nil {
+			fmt.Println("Could not read json:", err.Error())
+			return
 		}
 
 		h, d := jsonPacketHandlers[data.Id]
@@ -94,12 +136,6 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		packets := h.handlePacket(data.Data, getRoom(roomId))
-		if packets != nil {
-			packet := packetWrapper{Packets: packets}
-			if err := conn.WriteJSON(packet); err != nil {
-				fmt.Println("Could not write JSON:", err.Error())
-				return
-			}
-		}
+		room.Send(packets)
 	}
 }

@@ -146,6 +146,9 @@ $(function () {
 		Log(verb + Math.abs(data.Cash) + ' dollars.', 1);
 	};
 	handlers.State = function (data) {
+		// Clear everything
+		$('#PlayerInfos > .PlayerInfo').remove();
+		
 		board = new Board(data.Board);
 		
 		Initialize();
